@@ -11,7 +11,8 @@ def main():
     parser.add_argument('--filenames_path', required=True, type=str)
     args = parser.parse_args()
 
-    apes(args.preds_file, args.filenames_path, args.questions_mapping_path)
+    apes(args.preds_file, args.filenames_path, args.questions_mapping_path, 
+        '/media/backup1/glove/glove.6B.100d.txt', 'model.pkl.gz')
     rouge(args.preds_file, args.targets_file)
 
 

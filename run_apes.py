@@ -1,11 +1,21 @@
 import re, os
 from time import sleep
+from qa_system import utils, qa_module
 
 from utils import write_pickle, read_pickle
 
-def apes(preds_file, filenames_path, questions_mapping_path):
-    total_correct, total_questions = 0, 0
+# def eval_acc(data, word_dict):
+#     dev_x1, dev_x2, dev_l, dev_y = utils.vectorize(data, word_dict, entity_dict, args)
+#     all_dev = qa_module.gen_examples(dev_x1, dev_x2, dev_l, dev_y, args.batch_size)
+#     dev_acc = qa_module.eval_acc(test_fn, all_dev)
+#     return dev_acc
 
+
+def apes(preds_file, filenames_path, questions_mapping_path, glove_path, qa_model_path):
+
+    total_correct, total_questions = 0, 0
+    args, word_dict, entity_dict, _, test_fn, params = qa_module.load_model(embedding_file=glove_path,
+                                                                                model_file=qa_model_path)
     questions_mapping, summaries, filenames = read_files(preds_file, filenames_path, questions_mapping_path)
 
     print('answer_questions')
@@ -17,7 +27,11 @@ def apes(preds_file, filenames_path, questions_mapping_path):
         num_correct = 0
 
         if '@' in entitized_summary:
-            acc = eval_acc([[entitized_summary]*num_questions, curr_questions, curr_answers, []])/100
+            query = [[entitized_summary]*num_questions, curr_questions, curr_answers, []]
+            dev_x1, dev_x2, dev_l, dev_y = utils.vectorize(query, word_dict, entity_dict, args)
+            all_dev = qa_module.gen_examples(dev_x1, dev_x2, dev_l, dev_y, args.batch_size)
+            dev_acc = qa_module.eval_acc(test_fn, all_dev)
+            acc = dev_acc/100
             num_correct = acc * num_questions
 
         print("NUM CORRECT: " + str(num_correct))
@@ -47,20 +61,20 @@ def entitize(summary, entities):
 
     return entitized_summary
 
-def eval_acc(data):
-    query_path = './queries.pkl'
-    rewards_path = './rewards.txt'
+# def eval_acc(data):
+#     query_path = './queries.pkl'
+#     rewards_path = './rewards.txt'
 
-    write_pickle(query_path, data)
-    while(not os.path.isfile(rewards_path)):
-        sleep(0.1)
+#     write_pickle(query_path, data)
+#     while(not os.path.isfile(rewards_path)):
+#         sleep(0.1)
 
-    rewards_file = open(rewards_path, 'r')
-    acc = rewards_file.read()
-    os.remove(rewards_path)
-    try:
-        acc = float(acc)
-    except Exception:
-        acc = 0.0
+#     rewards_file = open(rewards_path, 'r')
+#     acc = rewards_file.read()
+#     os.remove(rewards_path)
+#     try:
+#         acc = float(acc)
+#     except Exception:
+#         acc = 0.0
 
-    return acc
+#     return acc

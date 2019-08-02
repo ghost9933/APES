@@ -1,1 +1,4 @@
+https://github.com/Theano/Theano/archive/master.zip
+https://github.com/Lasagne/Lasagne/archive/master.zip
+tqdm
 git+https://github.com/mataney/googles_rouge.git

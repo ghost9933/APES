@@ -1,4 +1,4 @@
-import os, pickle, shutil
+import os, pickle, shutil, gzip
 
 def summaries_to_rouge_format(summaries_file, outputs_dir, extention):
     if not os.path.exists(outputs_dir):
@@ -11,10 +11,15 @@ def summaries_to_rouge_format(summaries_file, outputs_dir, extention):
                 destination.write(line)
 
 def read_pickle(file):
-    with open(file, 'rb') as f:
-        data = pickle.loads(f.read())
-    return data
-
+    if '.gz' in file:
+        with gzip.open(file, 'rb') as f:
+            data = pickle.load(f)
+        return data
+    else:
+        with open(file, 'rb') as f:
+            data = pickle.load(f)
+        return data
+        
 def write_pickle(file, data):
     with open(file, 'wb') as f:
         pickle.dump(data, f, protocol=2)

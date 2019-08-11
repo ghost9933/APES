@@ -6,7 +6,7 @@ APES currently only support summary evalution from CNN/Dailymail dataset, as the
 
 ## How to Use
 
-0. Install it using the command below:
+0. Under a Python 3.6 environment, install apes using the command below:
     ```
     pip install git+https://github.com/theblackcat102/APES.git
     ```
@@ -53,25 +53,13 @@ First, run:
 
 This script creates a a pickle with a mapping from an article hash to its respective entities mapping (entity name to entity number), and questions.
 
-# Execute
-
-Then run both APES and ROUGE on your generated summaries. An example of a small subset of the CNN\Daily Mail:
-
-`python run.py --preds_file testdata/test.txt.pred --targets_file testdata/test.txt.tgt --questions_mapping_path ./questions_data.pkl.gz --filenames_path ./filenames/filenames-test.txt`
-
-```
-APES score (5/29) : 0.1724
-```
-
-`python run.py --preds_file testdata/test.txt.tgt --targets_file testdata/test.txt.tgt --questions_mapping_path ./questions_data.pkl.gz --filenames_path ./filenames/filenames-test.txt`
-
-```
-APES score (11/29) : 0.3793
-```
-
-Filenames hold the mapping from CNN\Dail Mail article id to its hash.
 
 # Citation
+
+This package is made by @theblackcat102 which do not have any affiliation to the original research paper.
+
+However, You can cite the original paper as follows:
+
 ```
 @inproceedings{eyal-etal-2019-question,
     title = "Question Answering as an Automatic Evaluation Metric for News Article Summarization",

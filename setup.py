@@ -5,8 +5,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 install_requires = [
-    'https://github.com/Theano/Theano/archive/master.zip',
-    'https://github.com/Lasagne/Lasagne/archive/master.zip',
+    'Theano @ https://github.com/Theano/Theano/archive/master.zip',
+    'Lasagne @ https://github.com/Lasagne/Lasagne/archive/master.zip',
 ]
 
 tests_require = [

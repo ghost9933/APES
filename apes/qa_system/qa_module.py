@@ -4,13 +4,14 @@ import theano
 import theano.tensor as T
 import pickle
 from os import environ
-
-import sys
+import sys, os
 import time
-from qa_system import utils
-import qa_system.config
+from apes.qa_system import utils
+import apes.qa_system.config
 import logging
-from qa_system import nn_layers
+from apes.qa_system import nn_layers
+
+base_file_path = os.path.dirname(os.path.abspath(__file__))
 
 
 def gen_examples(x1, x2, l, y, batch_size):
@@ -166,11 +167,11 @@ def main(args):
     entity_dict = {w: index for (index, w) in enumerate(entity_markers)}
 
     # save entity dictionary
-    print('Saving entity dictionary, entity count {}'.format(len(entity_dict)))
-    with open('entity_dict.pkl', 'wb') as entity_f:
+    # print('Saving entity dictionary, entity count {}'.format(len(entity_dict)))
+    with open(os.path.join(base_file_path, 'entity_dict.pkl'), 'wb') as entity_f:
         pickle.dump(entity_dict, entity_f)
 
-    with open('word_dict.pkl', 'wb') as words_f:
+    with open(os.path.join(base_file_path, 'word_dict.pkl'), 'wb') as words_f:
         pickle.dump(word_dict, words_f)
 
     logging.debug('Entity markers: %d' % len(entity_dict))
@@ -400,11 +401,11 @@ def load_model(embedding_file, model_file='model.pkl.gz',  entity_dictionry_file
 
     args = checkpoint_args(embedding_file=embedding_file,model_file=model_file, train_file='None2', dev_file='None' )
 
-    with open(entity_dictionry_filename, 'rb') as entity_f:
+    with open(os.path.join(base_file_path, entity_dictionry_filename), 'rb') as entity_f:
         entity_dict = pickle.load(entity_f)
-        print('{} entities found!'.format(len(entity_dict)))
+        # print('{} entities found!'.format(len(entity_dict)))
 
-    with open(words_dictionry_filename, 'rb') as entity_f:
+    with open(os.path.join(base_file_path, words_dictionry_filename), 'rb') as entity_f:
         word_dict = pickle.load(entity_f)
 
     logging.debug('Entity markers: %d' % len(entity_dict))

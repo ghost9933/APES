@@ -1,7 +1,7 @@
 
 import lasagne
 import numpy as np
-from qa_system import config
+from apes.qa_system import config
 try:
     import cPickle as pickle
 except:
@@ -132,7 +132,7 @@ def vectorize(examples, word_dict, entity_dict, args,
             in_l[idx, [entity_dict[w] for w in d_words if w in entity_dict]] = 1.0
             in_y.append(entity_dict[a] if a in entity_dict else 0)
         if verbose and (idx % 10000 == 0):
-            logging.info('Vectorization: processed %d / %d' % (idx, len(examples[0])))
+            logging.debug('Vectorization: processed %d / %d' % (idx, len(examples[0])))
 
     def len_argsort(seq):
         return sorted(range(len(seq)), key=lambda x: len(seq[x]))

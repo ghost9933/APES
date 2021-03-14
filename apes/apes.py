@@ -63,7 +63,7 @@ def evaluate(prediction_filepattern, glove_path, questions_mapping_path, output_
         total_questions += num_questions
         matched_summary += 1
 
-        with open(output_filename, 'w') as f:
+        with open(output_filename, 'a') as f:
             f.write('Summary found,Summary Matched,APES scores,Question Asked,accuracy per question\n')
             f.write('{:.4f},{},{:.4f},{},{}'.format(
                 total_correct/total_questions, 

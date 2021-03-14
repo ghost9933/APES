@@ -76,7 +76,7 @@ def evaluate(prediction_filepattern, glove_path, questions_mapping_path, output_
     with open(output_filename, 'a') as f:
         f.write('Summary id,num_questions ,num_correct,APES scores,\n')
         for i in range(len(scores)):
-             f.write('{},{},{},{:.4f}'.format(name[i],nq[i],nc[i],scores[i]))
+             f.write('\n{},{},{},{:.4f}\n'.format(name[i],nq[i],nc[i],scores[i]))
 
 
     with open(output_filename, 'a') as f:

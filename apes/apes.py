@@ -63,15 +63,15 @@ def evaluate(prediction_filepattern, glove_path, questions_mapping_path, output_
         total_questions += num_questions
         matched_summary += 1
 
-    with open(output_filename, 'w') as f:
-        f.write('Summary found,Summary Matched,APES scores,Question Asked,accuracy per question\n')
-        f.write('{:.4f},{},{:.4f},{},{}'.format(
-            total_correct/total_questions, 
-            total_questions,np.mean(scores),
-            total_files, matched_summary))
-        # f.write('Summary Matched           : {}/{}\n'.format(matched_summary, total_files))
-        # f.write('APES scores               : {:.4f}, {}/{}\n'.format(total_correct/total_questions, total_correct, total_questions))
-        # f.write('Avg accuracy per question :{:.4f} ({:.4f})'.format(np.mean(scores), np.std(scores)))
+        with open(output_filename, 'w') as f:
+            f.write('Summary found,Summary Matched,APES scores,Question Asked,accuracy per question\n')
+            f.write('{:.4f},{},{:.4f},{},{}'.format(
+                total_correct/total_questions, 
+                total_questions,np.mean(scores),
+                total_files, matched_summary))
+            # f.write('Summary Matched           : {}/{}\n'.format(matched_summary, total_files))
+            # f.write('APES scores               : {:.4f}, {}/{}\n'.format(total_correct/total_questions, total_correct, total_questions))
+            # f.write('Avg accuracy per question :{:.4f} ({:.4f})'.format(np.mean(scores), np.std(scores)))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='APES : summary assesment using question answering')

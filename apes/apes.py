@@ -64,7 +64,7 @@ def evaluate(prediction_filepattern, glove_path, questions_mapping_path, output_
         matched_summary += 1
         with open(output_filename, 'w+') as f:
             f.write('Summary id,num_questions ,num_correct,APES scores,\n')
-            f.write('{},{},{},{:.4f}'.format(summary_id,num_questions,num_correct,num_correct/num_questions))
+            f.write('{},{},{},{:.4f}'.format(summary_id,num_questions,num_correct,(num_correct/num_questions)))
         
 
     # with open(output_filename, 'a') as f:

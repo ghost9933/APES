@@ -38,9 +38,14 @@ def evaluate(prediction_filepattern, glove_path, questions_mapping_path, output_
     total_files = 0
     params, word_dict, entity_dict, _, test_fn, _ = qa_module.load_model(embedding_file=glove_path,
                                                                                 model_file=qa_model_path)
+    name=[]
+    nq=[]
+    nc=[]
+
     for filename in glob.glob(prediction_filepattern):
 
         summary_id = os.path.splitext(os.path.basename(filename))[0]
+        name.append(summary_id)
         summary = read_file(filename)
         total_files += 1
         if summary_id not in questions_mapping:
@@ -48,6 +53,8 @@ def evaluate(prediction_filepattern, glove_path, questions_mapping_path, output_
         entitized_summary = entitize(summary, questions_mapping[summary_id]['mapping'])
         curr_questions, curr_answers = zip(*[(q['question'], q['answer']) for q in questions_mapping[summary_id]['questions'].values()])
         num_questions = len(curr_questions)
+        nq.append(num_questions)
+
         num_correct = 0
 
         if '@' in entitized_summary:
@@ -57,6 +64,7 @@ def evaluate(prediction_filepattern, glove_path, questions_mapping_path, output_
             dev_acc = qa_module.eval_acc(test_fn, all_dev)
             acc = dev_acc / 100
             num_correct = acc * num_questions
+        nc.append(num_correct)
 
         scores.append(num_correct/num_questions)
         total_correct += num_correct
@@ -64,7 +72,7 @@ def evaluate(prediction_filepattern, glove_path, questions_mapping_path, output_
         matched_summary += 1
         with open(output_filename, 'w+') as f:
             f.write('Summary id,num_questions ,num_correct,APES scores,\n')
-            f.write('{},{},{},{:.4f}'.format(summary_id,num_questions,num_correct,(num_correct/num_questions)))
+            f.write('{},{},{},{:.4f}'.format(summary_id,num_questions,num_correct,num_correct/num_questions))
         
 
     # with open(output_filename, 'a') as f:

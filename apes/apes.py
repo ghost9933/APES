@@ -80,11 +80,12 @@ def evaluate(prediction_filepattern, glove_path, questions_mapping_path, output_
 
 
     with open(output_filename, 'a') as f:
-        f.write('\nSummary found,Summary Matched,APES scores,Question Asked,accuracy per question\n')
+        f.write('\nSummary found,Summary Matched,Question Asked,APES scores,accuracy per question\n')
         f.write('{:.4f},{},{:.4f},{},{}'.format(
-            total_correct/total_questions, 
+            total_files,
+            , matched_summary 
             total_questions,np.mean(scores),
-            total_files, matched_summary))
+            total_correct/total_questions))
         # f.write('Summary Matched           : {}/{}\n'.format(matched_summary, total_files))
         # f.write('APES scores               : {:.4f}, {}/{}\n'.format(total_correct/total_questions, total_correct, total_questions))
         # f.write('Avg accuracy per question :{:.4f} ({:.4f})'.format(np.mean(scores), np.std(scores)))

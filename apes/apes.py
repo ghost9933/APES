@@ -45,6 +45,7 @@ def evaluate(prediction_filepattern, glove_path, questions_mapping_path, output_
     for filename in glob.glob(prediction_filepattern):
 
         summary_id = os.path.splitext(os.path.basename(filename))[0]
+        print(summary_id)
         name.append(summary_id)
         summary = read_file(filename)
         total_files += 1
@@ -53,15 +54,21 @@ def evaluate(prediction_filepattern, glove_path, questions_mapping_path, output_
         entitized_summary = entitize(summary, questions_mapping[summary_id]['mapping'])
         curr_questions, curr_answers = zip(*[(q['question'], q['answer']) for q in questions_mapping[summary_id]['questions'].values()])
         num_questions = len(curr_questions)
+        print(curr_questions)
+        print(curr_answers)
         nq.append(num_questions)
 
         num_correct = 0
 
         if '@' in entitized_summary:
             query = [[entitized_summary]*num_questions, curr_questions, curr_answers, []]
+            print(query)
             dev_x1, dev_x2, dev_l, dev_y = utils.vectorize(query, word_dict, entity_dict, params)
+            print('vectors',dev_x1, dev_x2, dev_l, dev_y)
+            
             all_dev = qa_module.gen_examples(dev_x1, dev_x2, dev_l, dev_y, 16)
             dev_acc = qa_module.eval_acc(test_fn, all_dev)
+            print(all_dev,dev_acc)
             acc = dev_acc / 100
             num_correct = acc * num_questions
         nc.append(num_correct)
